@@ -7,9 +7,26 @@ var _angular2 = _interopRequireDefault(_angular);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_angular2.default.module('olympics', []).controller('sportsController', function () {
-  this.sports = ["Weightlifting", "Cycling"];
+_angular2.default.module('olympics', []).controller('sportsController', function ($http) {
+  var _this = this;
+
+  $http.get('/sports').then(function (response) {
+    _this.sports = response.data;
+  });
 });
+
+/*
+antes habia que declarar una variable afuera
+del http, para poder acceder a ella despues
+con el ES2015, usando la arrow function esto
+ya no es necesario. Tengo que estudiar mejor eso
+
+seria asi
+var that = this
+$http.get('/sports').then((response)=>{
+  that.sports = response.data;
+})
+*/
 
 },{"angular":3}],2:[function(require,module,exports){
 /**
