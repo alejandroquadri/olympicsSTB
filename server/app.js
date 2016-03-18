@@ -15,6 +15,9 @@ app.use(express.static (__dirname+"/../client") );
 app.get("/sports", (request, response)=>{
   let sports = mongoUtil.sports();
   sports.find().toArray((err,docs) => { //la funcion toArray convierte el resultado de la consulta en un array de objetos
+    if (err){
+      response.sendStatus(400);
+    }
     console.log(JSON.stringify(docs));
     let sportNames = docs.map((sport)=>sport.name);
     // esta funcion de arriba es de javascript, pero la arrow acorta la sintaxis y hace que sea mas corto de escribir
@@ -34,24 +37,16 @@ app.get("/sports/:name", (request, response)=>{
   let sportName = request.params.name;
   //la linea de arriba lo que hace es agarrar el nombre del deporte de la url
   // eso queda especificado en el codigo request.params.name
+  let sports = mongoUtil.sports();
 
-  console.log("Sport name: ",sportName);
+  sports.find({name:sportName}).limit(1).next((err,doc)=>{
+    if (err){
+      response.sendStatus(400);
+    }
+    console.log("Sport name: ",doc);
+    response.json(doc);
+  });
 
-  let sport = {
-    "name":"Cycling",
-    "goldMedals":[{
-      "division":"Men's Sprint",
-      "country":"UK",
-      "year":2012
-    },{
-      "division":"Women's Sprint",
-      "country":"Australia",
-      "year":2012
-    }]
-  };
-
-  response.json(sport);
-  // vista final 34:54 2do video
 })
 
 
