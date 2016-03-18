@@ -27,22 +27,12 @@ angular.module('olympics',["ui.router"])
     // el :sportsName va a ser ocupado en URL por el deporte en cuestion que se elija
     templateUrl:'sports/sports-medals.html',
     resolve: {
-      sportService: function ($q){
-        return $q((resolve,reject)=>{
-          let sport = {
-            "name":"Cycling",
-            "goldMedals":[{
-              "division":"Men's Sprint",
-              "country":"UK",
-              "year":2012
-            },{
-              "division":"Women's Sprint",
-              "country":"Australia",
-              "year":2012
-            }]
-          };
-        resolve({data:sport})
-        })
+      sportService: function ($http, $stateParams){
+        return $http.get(`/sports/${$stateParams.sportName}`);
+        //el primer signo $ dentro del get, tiene que ver con la nueva sintaxis de ES2015
+        // el segundo dolar tiene que ver con Angular, esta tomando el nombre del url.
+        //Minuto 38.30 del 2do video lo explica.
+        //min 37:27 2do vid hard coded vista
       }
     },
     controller:function(sportService){

@@ -34,7 +34,7 @@ app.get("/sports/:name", (request, response)=>{
   let sportName = request.params.name;
   //la linea de arriba lo que hace es agarrar el nombre del deporte de la url
   // eso queda especificado en el codigo request.params.name
-  
+
   console.log("Sport name: ",sportName);
 
   let sport = {
@@ -51,6 +51,7 @@ app.get("/sports/:name", (request, response)=>{
   };
 
   response.json(sport);
+  // vista final 34:54 2do video
 })
 
 
