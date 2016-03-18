@@ -30,6 +30,29 @@ app.get("/sports", (request, response)=>{
 //   res.send('Hello World!');
 // });
 
+app.get("/sports/:name", (request, response)=>{
+  let sportName = request.params.name;
+  //la linea de arriba lo que hace es agarrar el nombre del deporte de la url
+  // eso queda especificado en el codigo request.params.name
+  
+  console.log("Sport name: ",sportName);
+
+  let sport = {
+    "name":"Cycling",
+    "goldMedals":[{
+      "division":"Men's Sprint",
+      "country":"UK",
+      "year":2012
+    },{
+      "division":"Women's Sprint",
+      "country":"Australia",
+      "year":2012
+    }]
+  };
+
+  response.json(sport);
+})
+
 
 app.listen(8181, ()=>console.log("Listening on 8181"));
 /*
