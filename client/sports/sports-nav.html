@@ -3,11 +3,14 @@
   ng-controller="sportsController as sportsCtrl"
   el ui-router se ocupa de asignar el controlador. Igual en state
   lo habia definido con el nombre sportsCtrl-->
-  
+
   <li ng-repeat="sport in sportsCtrl.sports">
-    <a ui-sref="sports.medals"> {{ sport }}</a>
+    <a ui-sref="sports.medals({sportName: sport})"> {{ sport }}</a>
     <!-- el  ui-sref se usa porque se esta definiendo el estado
-    que va a tomar al clickear ahi-->
+    que va a tomar al clickear ahi
+    poniendo como funcion, y dentro de ahi como obejto el placeholder que es sportName
+    despues : y sport que es el nombre que le di al iterador
+    -->
   </li>
 </ul>
 
