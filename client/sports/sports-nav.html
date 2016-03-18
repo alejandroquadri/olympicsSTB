@@ -1,3 +1,17 @@
-<ul ng-controller="sportsController as sportsCtrl">
-  <li ng-repeat="sport in sportsCtrl.sports">{{ sport }}</li>
+<ul>
+  <!-- no hace falta usar
+  ng-controller="sportsController as sportsCtrl"
+  el ui-router se ocupa de asignar el controlador. Igual en state
+  lo habia definido con el nombre sportsCtrl-->
+  
+  <li ng-repeat="sport in sportsCtrl.sports">
+    <a ui-sref="sports.medals"> {{ sport }}</a>
+    <!-- el  ui-sref se usa porque se esta definiendo el estado
+    que va a tomar al clickear ahi-->
+  </li>
 </ul>
+
+<div ui-view></div>
+<!-- esto es porque cuando se crea un subestado, hay que poner
+un lugar donde se dice donde quiero que aparezca dicho sub-estado
+Para eso uso ui-view -->

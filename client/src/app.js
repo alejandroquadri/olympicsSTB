@@ -8,9 +8,30 @@ angular.module('olympics',["ui.router"])
   $stateProvider
   .state('sports', {
     url:'/sports',
-    templateUrl:'sports/sports-nav.html'
+    templateUrl:'sports/sports-nav.html',
+    resolve:{
+      sportsService: function($http){
+        return $http.get('/sports');
+      }
+    // resolve le dice que antes de cargar la template, primero cargue la funcion en cuestion
+    // se explica esto en el minuto 22 del 2do video STP MEAN
+    },
+    controller: function(sportsService){
+        this.sports = sportsService.data;
+    },
+    controllerAs: 'sportsCtrl'
+  })
+  .state('sports.medals',{
+    url:'/:sportName',
+    //no es necesario decir /sports/sportsName, con el punto de sports.medals basta
+    // el :sportsName va a ser ocupado en URL por el deporte en cuestion que se elija
+    templateUrl:'sports/sports-medals.html'
   })
 })
+
+
+
+/*
 
 .controller('sportsController', function($http){
   $http.get('/sports').then((response)=>{
@@ -18,7 +39,6 @@ angular.module('olympics',["ui.router"])
   });
 })
 
-/*
 antes habia que declarar una variable afuera
 del http, para poder acceder a ella despues
 con el ES2015, usando la arrow function esto
