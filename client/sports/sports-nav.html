@@ -1,20 +1,43 @@
-<ul>
-  <!-- no hace falta usar
+<div class="cell">
+  <div class="sports-list">
+    <ul class="grid list list--unstyled mbl" ng-cloak>
+      <li class="grid-box grid-box--6of12 sport-name" ng-repeat="sport in sportsCtrl.sports">
+        <div class="card" ng-class="{'is-active': sportsCtrl.isActive(sport)}">
+          <h2 class="card-title">
+
+            <a class="card-link card-link--{{ sport.toLowerCase() }}" ui-sref="sports.medals({ sportName: sport })">
+              {{ sport }}
+            </a>
+
+          </h2>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="sports-info"  ui-view></div>
+
+  <!-- esto lo tuve que comentar, porque cambio todo con clases para que se viera lindo
+  <ul>
+ no hace falta usar
   ng-controller="sportsController as sportsCtrl"
   el ui-router se ocupa de asignar el controlador. Igual en state
-  lo habia definido con el nombre sportsCtrl-->
+  lo habia definido con el nombre sportsCtrl
 
   <li ng-repeat="sport in sportsCtrl.sports">
     <a ui-sref="sports.medals({sportName: sport})"> {{ sport }}</a>
-    <!-- el  ui-sref se usa porque se esta definiendo el estado
+     el  ui-sref se usa porque se esta definiendo el estado
     que va a tomar al clickear ahi
     poniendo como funcion, y dentro de ahi como obejto el placeholder que es sportName
     despues : y sport que es el nombre que le di al iterador
-    -->
+
   </li>
 </ul>
 
 <div ui-view></div>
-<!-- esto es porque cuando se crea un subestado, hay que poner
+esto es porque cuando se crea un subestado, hay que poner
 un lugar donde se dice donde quiero que aparezca dicho sub-estado
-Para eso uso ui-view -->
+Para eso uso ui-view
+
+-->
