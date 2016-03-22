@@ -43,9 +43,13 @@ angular.module('olympics',["ui.router"])
   .state('sports.new', {
     url:'/:sportName/medal/new',
     templateUrl:'sports/new-medal.html',
-    controller: function($stateParams){
+    controller: function($stateParams, $state){
       this.sportName = $stateParams.sportName;
       //el sportName de arriba hace referencia al que se le de a traves de ui-router
+      this.saveMedal = function (medal) {
+        console.log('medal',medal);
+        $state.go('sports.medals',{sportName:$stateParams.sportName});
+      }
     },
     controllerAs: 'newMedalCtrl'
   })
