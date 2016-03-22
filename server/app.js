@@ -7,6 +7,9 @@ let mongoUtil = require("./mongoUtil");
 //arriba se usa el punto por estar importando un modulo local, en el de express es un modulo de npm
 mongoUtil.connect();
 
+let bodyParser = require("body-parser");
+let jsonParser = bodyParser.json();
+
 app.use(express.static (__dirname+"/../client") );
 //usa esa direccion porque como va a leer desde
 //clientes todos los archivos estaticos, tiene que
@@ -26,6 +29,17 @@ app.get("/sports", (request, response)=>{
     // lo explica en el min 34 del 1er video
     response.json(sportNames);
   });
+});
+
+app.post("/sports/:name/medals", jsonParser, (request, response)=>{
+// para que pueda entender bien el objeto fue necesario instalar una extension npm install --save body-parser
+  let sportName = request.params.name;
+  let newMedal = request.body.medal;
+
+  console.log("Sport name: ", sportName);
+  console.log("Medal: ",newMedal);
+
+  response.sendStatus(201);
 });
 
 // lo siguiente seria sin usar el bendito ES2015
