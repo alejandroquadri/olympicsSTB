@@ -34,12 +34,27 @@ app.get("/sports", (request, response)=>{
 app.post("/sports/:name/medals", jsonParser, (request, response)=>{
 // para que pueda entender bien el objeto fue necesario instalar una extension npm install --save body-parser
   let sportName = request.params.name;
-  let newMedal = request.body.medal;
+  let newMedal = request.body.medal || {};
 
-  console.log("Sport name: ", sportName);
-  console.log("Medal: ",newMedal);
+  //lo que sigue es para cuidar que no entren datos incompletos
+  if(!newMedal.division || !newMedal.year || !newMedal.country){
+    response.sendStatus(400);
+  }
 
-  response.sendStatus(201);
+  let sports = mongoUtil.sports();
+  let query = {name: sportName};
+  let update = {$push: {goldMedals: newMedal}};
+
+  sports.findOneAndUpdate(query,update, (err,res)=>{
+    if(err){
+      response.sendStatus(400);
+    }
+    response.sendStatus(201);
+  })
+
+  // console.log("Sport name: ", sportName);
+  // console.log("Medal: ",newMedal);
+  // response.sendStatus(201);
 });
 
 // lo siguiente seria sin usar el bendito ES2015
