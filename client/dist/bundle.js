@@ -47,12 +47,14 @@ _angular2.default.module('olympics', ["ui.router"]).config(function ($stateProvi
   }).state('sports.new', {
     url: '/:sportName/medal/new',
     templateUrl: 'sports/new-medal.html',
-    controller: function controller($stateParams, $state) {
+    controller: function controller($stateParams, $state, $http) {
       this.sportName = $stateParams.sportName;
       //el sportName de arriba hace referencia al que se le de a traves de ui-router
       this.saveMedal = function (medal) {
-        console.log('medal', medal);
-        $state.go('sports.medals', { sportName: $stateParams.sportName });
+        $http({ method: 'POST', url: '/sports/' + $stateParams.sportName + '/medals',
+          data: { medal: medal } }).then(function () {
+          $state.go('sports.medals', { sportName: $stateParams.sportName });
+        });
       };
     },
     controllerAs: 'newMedalCtrl'
