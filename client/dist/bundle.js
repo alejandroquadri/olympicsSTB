@@ -42,6 +42,19 @@ _angular2.default.module('olympics', ["ui.router"]).config(function ($stateProvi
     },
     controller: function controller(sportService) {
       this.sport = sportService.data;
+
+      this.isActive = function (sport) {
+        console.log('funciona');
+        var pathRegexp = /sports\/(\w+)/;
+        var match = pathRegexp.exec($location.path());
+
+        console.log('hi');
+        if (match === null || match.length === 0) return false;
+        var selectedSportName = match[1];
+        console.log('below', selectedSportName, sport);
+
+        return sport === selectedSportName;
+      };
     },
     controllerAs: 'sportCtrl'
   }).state('sports.new', {

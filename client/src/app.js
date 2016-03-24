@@ -37,6 +37,19 @@ angular.module('olympics',["ui.router"])
     },
     controller:function(sportService){
       this.sport = sportService.data;
+
+      this.isActive = (sport) => {
+        console.log('funciona');
+        let pathRegexp = /sports\/(\w+)/;
+        let match = pathRegexp.exec($location.path());
+
+        console.log('hi')
+        if(match === null || match.length === 0) return false;
+        let selectedSportName = match[1];
+        console.log('below', selectedSportName, sport)
+
+        return sport === selectedSportName;
+      };
     },
     controllerAs:'sportCtrl'
   })
