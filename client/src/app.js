@@ -2,10 +2,11 @@ import angular from 'angular'
 import 'angular-ui-router'
 
 angular.module('olympics',["ui.router"])
+
 .config(($stateProvider,$urlRouterProvider)=>{
   $urlRouterProvider.otherwise('/sports')
-
   $stateProvider
+
   .state('sports', {
     url:'/sports',
     templateUrl:'sports/sports-nav.html',
@@ -16,8 +17,22 @@ angular.module('olympics',["ui.router"])
     // resolve le dice que antes de cargar la template, primero cargue la funcion en cuestion
     // se explica esto en el minuto 22 del 2do video STP MEAN
     },
-    controller: function(sportsService){
+
+    controller: function(sportsService, $location){
         this.sports = sportsService.data;
+
+        this.isActive = (sport) => {
+          console.log('funciona');
+          let pathRegexp = /sports\/(\w+)/;
+          let match = pathRegexp.exec($location.path());
+
+          console.log('hi')
+          if(match === null || match.length === 0) return false;
+          let selectedSportName = match[1];
+          console.log('below', selectedSportName, sport)
+
+          return sport === selectedSportName;
+        };
     },
     controllerAs: 'sportsCtrl'
   })
@@ -27,7 +42,7 @@ angular.module('olympics',["ui.router"])
     // el :sportsName va a ser ocupado en URL por el deporte en cuestion que se elija
     templateUrl:'sports/sports-medals.html',
     resolve: {
-      sportService: function ($http, $stateParams){
+      sportsService: function ($http, $stateParams){
         return $http.get(`/sports/${$stateParams.sportName}`);
         //el primer signo $ dentro del get, tiene que ver con la nueva sintaxis de ES2015
         // el segundo dolar tiene que ver con Angular, esta tomando el nombre del url.
@@ -35,24 +50,13 @@ angular.module('olympics',["ui.router"])
         //min 37:27 2do vid hard coded vista
       }
     },
-    controller:function(sportService){
-      this.sport = sportService.data;
+    controller: function(sportsService, $location) {
+      this.sports = sportsService.data;
 
-      this.isActive = (sport) => {
-        console.log('funciona');
-        let pathRegexp = /sports\/(\w+)/;
-        let match = pathRegexp.exec($location.path());
-
-        console.log('hi')
-        if(match === null || match.length === 0) return false;
-        let selectedSportName = match[1];
-        console.log('below', selectedSportName, sport)
-
-        return sport === selectedSportName;
-      };
     },
     controllerAs:'sportCtrl'
   })
+
   .state('sports.new', {
     url:'/:sportName/medal/new',
     templateUrl:'sports/new-medal.html',
